@@ -86,14 +86,27 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/grid.js":
+/*!*********************!*\
+  !*** ./src/grid.js ***!
+  \*********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nclass Grid {\n  constructor(canvas, matrix, user) {\n    this.color = \"#000000\"\n    this.canvas = canvas;\n    this.user = user;\n    this.matrix = matrix;\n  }\n\n  paintGrid() {\n    const ctx = this.canvas.getContext(\"2d\");\n    ctx.fillStyle = this.color;\n    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);\n    this.drawPiece(this.user.matrix, this.user.pos);\n  }\n\n  drawPiece(matrix, move) {\n    const ctx = this.canvas.getContext(\"2d\");\n    matrix.forEach((row, rowIdx) => {\n      row.forEach((col, colIdx) => {\n        if (col !== 0) {\n          ctx.fillStyle = 'purple';\n          ctx.fillRect((colIdx * 36 + 1) + move.x, (rowIdx * 36 + 1) + move.y, (1 * 36 - 3), (1 * 36 - 3));\n          ctx.strokeStyle = 'white';\n          ctx.strokeRect((colIdx * 36) + 1 + move.x, (rowIdx * 36) + 1 + move.y, (1 * 36), (1 * 36))\n        }\n      })\n    })\n  }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Grid);\n\n//# sourceURL=webpack:///./src/grid.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-eval("console.log(\"Webpack is working!\")\n\n//# sourceURL=webpack:///./src/index.js?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _grid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./grid */ \"./src/grid.js\");\n\n\ndocument.addEventListener(\"DOMContentLoaded\", function() {\n  const canvas = document.getElementById('game-canvas');\n  canvas.height = 600;\n  canvas.width = 360;\n\n  const matrix = [\n    [0, 0, 0],\n    [1, 1, 1],\n    [0, 1, 0]\n  ];\n\n  let counter = 0;\n  let interval = 1000;\n  let oldTime = 0;\n\n  function updateGrid(loadingTime = 0) {\n    const newTime = loadingTime - oldTime;\n    oldTime = loadingTime;\n\n    counter += newTime;\n    if (counter > interval) {\n      user.pos.y += 36;\n      counter = 0;\n    }\n\n    grid.paintGrid();\n    requestAnimationFrame(updateGrid);\n  }\n\n  const user = {\n    pos: { x: 0, y: 0},\n    matrix\n  }\n\n  const grid = new _grid__WEBPACK_IMPORTED_MODULE_0__[\"default\"](canvas, matrix, user);\n\n\n  updateGrid();  \n\n  window.user = user;\n})\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
