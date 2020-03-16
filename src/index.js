@@ -1,8 +1,9 @@
 import Grid from './grid';
+import Game from './game';
 
 document.addEventListener("DOMContentLoaded", function() {
   const canvas = document.getElementById('game-canvas');
-  canvas.height = 600;
+  canvas.height = 650;
   canvas.width = 360;
 
   const matrix = [
@@ -15,14 +16,18 @@ document.addEventListener("DOMContentLoaded", function() {
   let interval = 1000;
   let oldTime = 0;
 
+  function userDown() {
+    user.pos.y += 36;
+    counter = 0;
+  }
+
   function updateGrid(loadingTime = 0) {
     const newTime = loadingTime - oldTime;
     oldTime = loadingTime;
 
     counter += newTime;
     if (counter > interval) {
-      user.pos.y += 36;
-      counter = 0;
+      userDown();
     }
 
     grid.paintGrid();
@@ -34,8 +39,17 @@ document.addEventListener("DOMContentLoaded", function() {
     matrix
   }
 
-  const grid = new Grid(canvas, matrix, user);
+  document.addEventListener('keydown', event => {
+    if (event.keyCode === 37) {
+      user.pos.x -= 36;
+    } else if (event.keyCode === 39) {
+      user.pos.x += 36;
+    } else if (event.keyCode === 40) {
+      userDown();
+    }
+  })
 
+  const grid = new Grid(canvas, matrix, user);
 
   updateGrid();  
 

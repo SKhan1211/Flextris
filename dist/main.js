@@ -86,6 +86,18 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/game.js":
+/*!*********************!*\
+  !*** ./src/game.js ***!
+  \*********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nclass Game {\n  constructor() {\n\n  }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Game);\n\n//# sourceURL=webpack:///./src/game.js?");
+
+/***/ }),
+
 /***/ "./src/grid.js":
 /*!*********************!*\
   !*** ./src/grid.js ***!
@@ -106,7 +118,7 @@ eval("__webpack_require__.r(__webpack_exports__);\nclass Grid {\n  constructor(c
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _grid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./grid */ \"./src/grid.js\");\n\n\ndocument.addEventListener(\"DOMContentLoaded\", function() {\n  const canvas = document.getElementById('game-canvas');\n  canvas.height = 600;\n  canvas.width = 360;\n\n  const matrix = [\n    [0, 0, 0],\n    [1, 1, 1],\n    [0, 1, 0]\n  ];\n\n  let counter = 0;\n  let interval = 1000;\n  let oldTime = 0;\n\n  function updateGrid(loadingTime = 0) {\n    const newTime = loadingTime - oldTime;\n    oldTime = loadingTime;\n\n    counter += newTime;\n    if (counter > interval) {\n      user.pos.y += 36;\n      counter = 0;\n    }\n\n    grid.paintGrid();\n    requestAnimationFrame(updateGrid);\n  }\n\n  const user = {\n    pos: { x: 0, y: 0},\n    matrix\n  }\n\n  const grid = new _grid__WEBPACK_IMPORTED_MODULE_0__[\"default\"](canvas, matrix, user);\n\n\n  updateGrid();  \n\n  window.user = user;\n})\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _grid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./grid */ \"./src/grid.js\");\n/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./game */ \"./src/game.js\");\n\n\n\ndocument.addEventListener(\"DOMContentLoaded\", function() {\n  const canvas = document.getElementById('game-canvas');\n  canvas.height = 650;\n  canvas.width = 360;\n\n  const matrix = [\n    [0, 0, 0],\n    [1, 1, 1],\n    [0, 1, 0]\n  ];\n\n  let counter = 0;\n  let interval = 1000;\n  let oldTime = 0;\n\n  function userDown() {\n    user.pos.y += 36;\n    counter = 0;\n  }\n\n  function updateGrid(loadingTime = 0) {\n    const newTime = loadingTime - oldTime;\n    oldTime = loadingTime;\n\n    counter += newTime;\n    if (counter > interval) {\n      userDown();\n    }\n\n    grid.paintGrid();\n    requestAnimationFrame(updateGrid);\n  }\n\n  const user = {\n    pos: { x: 0, y: 0},\n    matrix\n  }\n\n  document.addEventListener('keydown', event => {\n    if (event.keyCode === 37) {\n      user.pos.x -= 36;\n    } else if (event.keyCode === 39) {\n      user.pos.x += 36;\n    } else if (event.keyCode === 40) {\n      userDown();\n    }\n  })\n\n  const grid = new _grid__WEBPACK_IMPORTED_MODULE_0__[\"default\"](canvas, matrix, user);\n\n  updateGrid();  \n\n  window.user = user;\n})\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 
