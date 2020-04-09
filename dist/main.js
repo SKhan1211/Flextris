@@ -186,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
     [0, 1, 0]
   ];
 
+  // Clears layer when it completely fills up
   function gridClear() {
     let rowCount = 1;
     outer: for (let y = matrixGrid.length - 1; y > 0; --y) {
@@ -241,6 +242,7 @@ document.addEventListener("DOMContentLoaded", function() {
   let interval = 1000;
   let oldTime = 0;
 
+  // Increases speed when down arrow is pressed
   function userDown() {
     user.pos.y += 1;
     if (collision(matrixGrid, user)) {
@@ -253,6 +255,7 @@ document.addEventListener("DOMContentLoaded", function() {
     counter = 0;
   }
 
+  // Handles moving pieces side to side on arrow button presses
   function userMove(direction) {
     user.pos.x += direction;
     if (collision(matrixGrid, user)) {
@@ -260,6 +263,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
+  // Helper method to rotate the pieces used with userRotate function
   function rotate(matrixGrid, direction) {
     for (let y = 0; y < matrixGrid.length; ++y) {
       for (let x = 0; x < y; ++x) {
@@ -280,6 +284,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
+  // Game pieces for our grid
   function createPiece(type) {
     if (type === 'I') {
       return [
@@ -326,6 +331,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
+  // Rotates the pieces when 'Q' or 'W' is pressed
   function userRotate(direction) {
     const pos = user.pos.x;
     let offset = 1;
@@ -341,6 +347,26 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
+  // Handles pausing the game
+  let isPaused = false;
+  function userPause() {
+    if (isPaused) {
+      isPaused = false;
+      updateGrid();
+      document.addEventListener("keydown", keyPresses);
+    } else {
+      isPaused = true;
+      document.removeEventListener("keydown", keyPresses);
+    }
+  }
+
+  // Event listener for pausing the game
+  document.addEventListener("keydown", (event) => {
+    if (event.keyCode === 80) {
+      userPause();
+    }
+  })
+
   function userReset() {
     const pieces = 'TJLOSZI';
     user.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
@@ -351,7 +377,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (collision(matrixGrid, user)) {
       matrixGrid.forEach((row) => row.fill(0));
       user.score = 0;
-      updateScore();
+      addScore();
     }
   }
 
@@ -365,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     grid.paintGrid();
-    requestAnimationFrame(updateGrid);
+    if (!isPaused) requestAnimationFrame(updateGrid);
   }
 
   const colors = [
@@ -387,7 +413,23 @@ document.addEventListener("DOMContentLoaded", function() {
     score: 0
   }
 
-  document.addEventListener('keydown', event => {
+  // document.addEventListener('keydown', event => {
+  //   if (event.keyCode === 37) {
+  //     userMove(-1);
+  //   } else if (event.keyCode === 39) {
+  //     userMove(1);
+  //   } else if (event.keyCode === 40) {
+  //     userDown();
+  //   } else if (event.keyCode === 81) {
+  //     userRotate(-1);
+  //   } else if (event.keyCode === 87) {
+  //     userRotate(1);
+  //   } else if (event.keyCode === 80) {
+  //     userPause();
+  //   }
+  // })
+
+  function keyPresses(event) {
     if (event.keyCode === 37) {
       userMove(-1);
     } else if (event.keyCode === 39) {
@@ -398,8 +440,10 @@ document.addEventListener("DOMContentLoaded", function() {
       userRotate(-1);
     } else if (event.keyCode === 87) {
       userRotate(1);
-    }
-  })
+    } 
+  }
+
+  document.addEventListener('keydown', keyPresses);
 
   function addScore() {
     document.getElementById("score").innerText = user.score;
