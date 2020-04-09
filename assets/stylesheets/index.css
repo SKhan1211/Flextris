@@ -118,7 +118,7 @@ canvas {
   margin: 2px;
   max-width: 44px;
   max-height: 44px;
-  box-shadow:  5px 6px 0px black;
+  box-shadow:  2px 5px 6px 0px black;
 }
 
 /* holds bottom arrow keys */
