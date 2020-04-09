@@ -73,10 +73,15 @@ canvas {
 .instructions-container {
   font-size: 1.7vw;
   font-family: 'Orbitron', sans-serif;
+  padding-left: 18px;
+  max-width: 600px;
 }
 
 .instructions-container > p:first-of-type  {
   font-weight: 700;
+  text-align: left;
+  padding-left: 9px;
+  padding-bottom: 30px;
 }
 
 .instructions-container > p {
@@ -88,6 +93,7 @@ canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 75px;
 }
 
 /* border around keys */
@@ -111,4 +117,29 @@ canvas {
 
 .fas {
   font-size: 1.4vw;
+}
+
+
+/* section for q and w key instructions */
+.q-w-key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 55px;
+}
+
+.top-key2 {
+  display: flex;
+}
+
+.top-key2 div:first-of-type {
+  margin-right: 15px;
+}
+
+/* section for p key instructions */
+.p-key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 55px;
 }
