@@ -14,6 +14,24 @@ document.addEventListener("DOMContentLoaded", function() {
     [0, 1, 0]
   ];
 
+  function gridClear() {
+    let rowCount = 1;
+    outer: for (let y = matrixGrid.length - 1; y > 0; --y) {
+      for (let x = 0; x < matrixGrid[y].length; ++x) {
+        if (matrixGrid[y][x] === 0) {
+          continue outer;
+        }
+      }
+
+      const row = matrixGrid.splice(y, 1)[0].fill(0);
+      matrixGrid.unshift(row);
+      ++y;
+
+      user.score += rowCount * 10;
+      rowCount *= 2;
+    }
+  }
+
   function createGrid(width, height) {
     const grid = [];
     while (height--) {
@@ -57,6 +75,8 @@ document.addEventListener("DOMContentLoaded", function() {
       user.pos.y -= 1;
       combine(matrixGrid, user);
       userReset();
+      gridClear();
+      addScore();
     }
     counter = 0;
   }
@@ -155,6 +175,12 @@ document.addEventListener("DOMContentLoaded", function() {
     user.pos.y = 0;
     user.pos.x = (matrixGrid[0].length / 2 | 0) -
       (user.matrix[0].length / 2 | 0);
+
+    if (collision(matrixGrid, user)) {
+      matrixGrid.forEach((row) => row.fill(0));
+      user.score = 0;
+      updateScore();
+    }
   }
 
   function updateGrid(loadingTime = 0) {
@@ -170,11 +196,23 @@ document.addEventListener("DOMContentLoaded", function() {
     requestAnimationFrame(updateGrid);
   }
 
+  const colors = [
+    null,
+    "#FF0D72",
+    "#0DC2FF",
+    "#0DFF72",
+    "#F538FF",
+    "#FF8E0D",
+    "#FFE138",
+    "#3877FF",
+  ];
+
   const matrixGrid = createGrid(12, 20)
 
   const user = {
-    pos: { x: 0, y: 0},
-    matrix
+    pos: { x: 4, y: 0},
+    matrix: null,
+    score: 0
   }
 
   document.addEventListener('keydown', event => {
@@ -191,11 +229,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   })
 
+  function addScore() {
+    document.getElementById("score").innerText = user.score;
+  }
+
   const grid = new Grid(canvas, matrix, user, matrixGrid);
 
+  userReset();
+  addScore();
   updateGrid();  
-
-  window.user = user;
-  window.matrixGrid = matrixGrid;
-  window.combine = combine;
 })

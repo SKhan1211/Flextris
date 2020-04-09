@@ -94,7 +94,14 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nclass Game {\n  constructor() {\n\n  }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Game);\n\n//# sourceURL=webpack:///./src/game.js?");
+__webpack_require__.r(__webpack_exports__);
+class Game {
+  constructor() {
+
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Game);
 
 /***/ }),
 
@@ -106,7 +113,49 @@ eval("__webpack_require__.r(__webpack_exports__);\nclass Game {\n  constructor()
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nclass Grid {\n  constructor(canvas, matrix, user, matrixGrid) {\n    this.color = \"#000000\"\n    this.canvas = canvas;\n    this.user = user;\n    this.matrix = matrix;\n    this.matrixGrid = matrixGrid;\n  }\n\n  paintGrid() {\n    const ctx = this.canvas.getContext(\"2d\");\n    ctx.fillStyle = this.color;\n    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);\n    this.drawPiece(this.matrixGrid, { x: 0, y: 0 });\n    this.drawPiece(this.user.matrix, this.user.pos);\n  }\n\n  drawPiece(matrix, move) {\n    const ctx = this.canvas.getContext(\"2d\");\n    matrix.forEach((row, rowIdx) => {\n      row.forEach((col, colIdx) => {\n        if (col !== 0) {\n          ctx.fillStyle = 'purple';\n          ctx.fillRect((colIdx) + move.x, (rowIdx) + move.y, (1), (1));\n        }\n      })\n    })\n  }\n}\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (Grid);\n\n//# sourceURL=webpack:///./src/grid.js?");
+__webpack_require__.r(__webpack_exports__);
+const colors = [
+  null,
+  "#FF0D72",
+  "#0DC2FF",
+  "#0DFF72",
+  "#F538FF",
+  "#FF8E0D",
+  "#FFE138",
+  "#3877FF",
+];
+
+class Grid {
+  constructor(canvas, matrix, user, matrixGrid) {
+    this.color = "#000000"
+    this.canvas = canvas;
+    this.user = user;
+    this.matrix = matrix;
+    this.matrixGrid = matrixGrid;
+  }
+
+  paintGrid() {
+    const ctx = this.canvas.getContext("2d");
+    ctx.fillStyle = this.color;
+    ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.drawPiece(this.matrixGrid, { x: 0, y: 0 });
+    this.drawPiece(this.user.matrix, this.user.pos);
+  }
+
+  drawPiece(matrix, move) {
+    const ctx = this.canvas.getContext("2d");
+    matrix.forEach((row, rowIdx) => {
+      row.forEach((col, colIdx) => {
+        if (col !== 0) {
+          ctx.fillStyle = colors[col];
+          ctx.fillRect((colIdx) + move.x, (rowIdx) + move.y, (1), (1));
+        }
+      })
+    })
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Grid);
 
 /***/ }),
 
@@ -118,8 +167,252 @@ eval("__webpack_require__.r(__webpack_exports__);\nclass Grid {\n  constructor(c
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _grid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./grid */ \"./src/grid.js\");\n/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./game */ \"./src/game.js\");\n\n\n\ndocument.addEventListener(\"DOMContentLoaded\", function() {\n  const canvas = document.getElementById('game-canvas');\n  canvas.height = 400;\n  canvas.width = 240;\n  const ctx = canvas.getContext(\"2d\");\n  ctx.scale(20, 20);\n\n  const matrix = [\n    [0, 0, 0],\n    [1, 1, 1],\n    [0, 1, 0]\n  ];\n\n  function createGrid(width, height) {\n    const grid = [];\n    while (height--) {\n      grid.push(new Array(width).fill(0));\n    }\n    return grid;\n  }\n\n  function collision(grid, user) {\n    const m = user.matrix;\n    const o = user.pos;\n    for (let y = 0; y < m.length; ++y) {\n      for (let x = 0; x < m[y].length; ++x) {\n        if (m[y][x] !== 0 &&\n          (grid[y + o.y] &&\n            grid[y + o.y][x + o.x]) !== 0) {\n          return true;\n        }\n      }\n    }\n    return false;\n  }\n\n  function combine(matrixGrid, user) {\n    user.matrix.forEach((row, y) => {\n      row.forEach((value, x) => {\n        if (value !== 0) {\n          matrixGrid[y + user.pos.y][x + user.pos.x] = value;\n        }\n      });\n    });\n  }\n\n  let counter = 0;\n  let interval = 1000;\n  let oldTime = 0;\n\n  function userDown() {\n    user.pos.y += 1;\n    if (collision(matrixGrid, user)) {\n      user.pos.y -= 1;\n      combine(matrixGrid, user);\n      userReset();\n    }\n    counter = 0;\n  }\n\n  function userMove(direction) {\n    user.pos.x += direction;\n    if (collision(matrixGrid, user)) {\n      user.pos.x -= direction;\n    }\n  }\n\n  function rotate(matrixGrid, direction) {\n    for (let y = 0; y < matrixGrid.length; ++y) {\n      for (let x = 0; x < y; ++x) {\n        [\n          matrixGrid[x][y],\n          matrixGrid[y][x],\n        ] = [\n            matrixGrid[y][x],\n            matrixGrid[x][y],\n          ];\n      }\n    }\n\n    if (direction > 0) {\n      matrixGrid.forEach(row => row.reverse());\n    } else {\n      matrixGrid.reverse();\n    }\n  }\n\n  function createPiece(type) {\n    if (type === 'I') {\n      return [\n        [0, 1, 0, 0],\n        [0, 1, 0, 0],\n        [0, 1, 0, 0],\n        [0, 1, 0, 0],\n      ];\n    } else if (type === 'L') {\n      return [\n        [0, 2, 0],\n        [0, 2, 0],\n        [0, 2, 2],\n      ];\n    } else if (type === 'J') {\n      return [\n        [0, 3, 0],\n        [0, 3, 0],\n        [3, 3, 0],\n      ];\n    } else if (type === 'O') {\n      return [\n        [4, 4],\n        [4, 4],\n      ];\n    } else if (type === 'Z') {\n      return [\n        [5, 5, 0],\n        [0, 5, 5],\n        [0, 0, 0],\n      ];\n    } else if (type === 'S') {\n      return [\n        [0, 6, 6],\n        [6, 6, 0],\n        [0, 0, 0],\n      ];\n    } else if (type === 'T') {\n      return [\n        [0, 7, 0],\n        [7, 7, 7],\n        [0, 0, 0],\n      ];\n    }\n  }\n\n  function userRotate(direction) {\n    const pos = user.pos.x;\n    let offset = 1;\n    rotate(user.matrix, direction);\n    while (collision(matrixGrid, user)) {\n      user.pos.x += offset;\n      offset = -(offset + (offset > 0 ? 1 : -1));\n      if (offset > user.matrix[0].length) {\n        rotate(user.matrix, -direction);\n        user.pos.x = pos;\n        return;\n      }\n    }\n  }\n\n  function userReset() {\n    const pieces = 'TJLOSZI';\n    user.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);\n    user.pos.y = 0;\n    user.pos.x = (matrixGrid[0].length / 2 | 0) -\n      (user.matrix[0].length / 2 | 0);\n  }\n\n  function updateGrid(loadingTime = 0) {\n    const newTime = loadingTime - oldTime;\n    oldTime = loadingTime;\n\n    counter += newTime;\n    if (counter > interval) {\n      userDown();\n    }\n\n    grid.paintGrid();\n    requestAnimationFrame(updateGrid);\n  }\n\n  const matrixGrid = createGrid(12, 20)\n\n  const user = {\n    pos: { x: 0, y: 0},\n    matrix\n  }\n\n  document.addEventListener('keydown', event => {\n    if (event.keyCode === 37) {\n      userMove(-1);\n    } else if (event.keyCode === 39) {\n      userMove(1);\n    } else if (event.keyCode === 40) {\n      userDown();\n    } else if (event.keyCode === 81) {\n      userRotate(-1);\n    } else if (event.keyCode === 87) {\n      userRotate(1);\n    }\n  })\n\n  const grid = new _grid__WEBPACK_IMPORTED_MODULE_0__[\"default\"](canvas, matrix, user, matrixGrid);\n\n  updateGrid();  \n\n  window.user = user;\n  window.matrixGrid = matrixGrid;\n  window.combine = combine;\n})\n\n//# sourceURL=webpack:///./src/index.js?");
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _grid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./grid */ "./src/grid.js");
+/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./game */ "./src/game.js");
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const canvas = document.getElementById('game-canvas');
+  canvas.height = 400;
+  canvas.width = 240;
+  const ctx = canvas.getContext("2d");
+  ctx.scale(20, 20);
+
+  const matrix = [
+    [0, 0, 0],
+    [1, 1, 1],
+    [0, 1, 0]
+  ];
+
+  function gridClear() {
+    let rowCount = 1;
+    outer: for (let y = matrixGrid.length - 1; y > 0; --y) {
+      for (let x = 0; x < matrixGrid[y].length; ++x) {
+        if (matrixGrid[y][x] === 0) {
+          continue outer;
+        }
+      }
+
+      const row = matrixGrid.splice(y, 1)[0].fill(0);
+      matrixGrid.unshift(row);
+      ++y;
+
+      user.score += rowCount * 10;
+      rowCount *= 2;
+    }
+  }
+
+  function createGrid(width, height) {
+    const grid = [];
+    while (height--) {
+      grid.push(new Array(width).fill(0));
+    }
+    return grid;
+  }
+
+  function collision(grid, user) {
+    const m = user.matrix;
+    const o = user.pos;
+    for (let y = 0; y < m.length; ++y) {
+      for (let x = 0; x < m[y].length; ++x) {
+        if (m[y][x] !== 0 &&
+          (grid[y + o.y] &&
+            grid[y + o.y][x + o.x]) !== 0) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  function combine(matrixGrid, user) {
+    user.matrix.forEach((row, y) => {
+      row.forEach((value, x) => {
+        if (value !== 0) {
+          matrixGrid[y + user.pos.y][x + user.pos.x] = value;
+        }
+      });
+    });
+  }
+
+  let counter = 0;
+  let interval = 1000;
+  let oldTime = 0;
+
+  function userDown() {
+    user.pos.y += 1;
+    if (collision(matrixGrid, user)) {
+      user.pos.y -= 1;
+      combine(matrixGrid, user);
+      userReset();
+      gridClear();
+      addScore();
+    }
+    counter = 0;
+  }
+
+  function userMove(direction) {
+    user.pos.x += direction;
+    if (collision(matrixGrid, user)) {
+      user.pos.x -= direction;
+    }
+  }
+
+  function rotate(matrixGrid, direction) {
+    for (let y = 0; y < matrixGrid.length; ++y) {
+      for (let x = 0; x < y; ++x) {
+        [
+          matrixGrid[x][y],
+          matrixGrid[y][x],
+        ] = [
+            matrixGrid[y][x],
+            matrixGrid[x][y],
+          ];
+      }
+    }
+
+    if (direction > 0) {
+      matrixGrid.forEach(row => row.reverse());
+    } else {
+      matrixGrid.reverse();
+    }
+  }
+
+  function createPiece(type) {
+    if (type === 'I') {
+      return [
+        [0, 1, 0, 0],
+        [0, 1, 0, 0],
+        [0, 1, 0, 0],
+        [0, 1, 0, 0],
+      ];
+    } else if (type === 'L') {
+      return [
+        [0, 2, 0],
+        [0, 2, 0],
+        [0, 2, 2],
+      ];
+    } else if (type === 'J') {
+      return [
+        [0, 3, 0],
+        [0, 3, 0],
+        [3, 3, 0],
+      ];
+    } else if (type === 'O') {
+      return [
+        [4, 4],
+        [4, 4],
+      ];
+    } else if (type === 'Z') {
+      return [
+        [5, 5, 0],
+        [0, 5, 5],
+        [0, 0, 0],
+      ];
+    } else if (type === 'S') {
+      return [
+        [0, 6, 6],
+        [6, 6, 0],
+        [0, 0, 0],
+      ];
+    } else if (type === 'T') {
+      return [
+        [0, 7, 0],
+        [7, 7, 7],
+        [0, 0, 0],
+      ];
+    }
+  }
+
+  function userRotate(direction) {
+    const pos = user.pos.x;
+    let offset = 1;
+    rotate(user.matrix, direction);
+    while (collision(matrixGrid, user)) {
+      user.pos.x += offset;
+      offset = -(offset + (offset > 0 ? 1 : -1));
+      if (offset > user.matrix[0].length) {
+        rotate(user.matrix, -direction);
+        user.pos.x = pos;
+        return;
+      }
+    }
+  }
+
+  function userReset() {
+    const pieces = 'TJLOSZI';
+    user.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+    user.pos.y = 0;
+    user.pos.x = (matrixGrid[0].length / 2 | 0) -
+      (user.matrix[0].length / 2 | 0);
+
+    if (collision(matrixGrid, user)) {
+      matrixGrid.forEach((row) => row.fill(0));
+      user.score = 0;
+      updateScore();
+    }
+  }
+
+  function updateGrid(loadingTime = 0) {
+    const newTime = loadingTime - oldTime;
+    oldTime = loadingTime;
+
+    counter += newTime;
+    if (counter > interval) {
+      userDown();
+    }
+
+    grid.paintGrid();
+    requestAnimationFrame(updateGrid);
+  }
+
+  const colors = [
+    null,
+    "#FF0D72",
+    "#0DC2FF",
+    "#0DFF72",
+    "#F538FF",
+    "#FF8E0D",
+    "#FFE138",
+    "#3877FF",
+  ];
+
+  const matrixGrid = createGrid(12, 20)
+
+  const user = {
+    pos: { x: 4, y: 0},
+    matrix: null,
+    score: 0
+  }
+
+  document.addEventListener('keydown', event => {
+    if (event.keyCode === 37) {
+      userMove(-1);
+    } else if (event.keyCode === 39) {
+      userMove(1);
+    } else if (event.keyCode === 40) {
+      userDown();
+    } else if (event.keyCode === 81) {
+      userRotate(-1);
+    } else if (event.keyCode === 87) {
+      userRotate(1);
+    }
+  })
+
+  function addScore() {
+    document.getElementById("score").innerText = user.score;
+  }
+
+  const grid = new _grid__WEBPACK_IMPORTED_MODULE_0__["default"](canvas, matrix, user, matrixGrid);
+
+  userReset();
+  addScore();
+  updateGrid();  
+})
 
 /***/ })
 
 /******/ });
+//# sourceMappingURL=main.js.map

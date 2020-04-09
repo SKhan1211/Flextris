@@ -1,0 +1,26 @@
+{
+  "name": "flextris",
+  "version": "1.0.0",
+  "description": "A Tetris clone",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "npm run webpack",
+    "webpack": "webpack --watch --mode=development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SKhan1211/Flextris.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SKhan1211/Flextris/issues"
+  },
+  "homepage": "https://github.com/SKhan1211/Flextris#readme",
+  "dependencies": {
+    "webpack": "^4.42.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.11"
+  }
+}

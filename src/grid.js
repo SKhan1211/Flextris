@@ -1,3 +1,14 @@
+const colors = [
+  null,
+  "#FF0D72",
+  "#0DC2FF",
+  "#0DFF72",
+  "#F538FF",
+  "#FF8E0D",
+  "#FFE138",
+  "#3877FF",
+];
+
 class Grid {
   constructor(canvas, matrix, user, matrixGrid) {
     this.color = "#000000"
@@ -20,7 +31,7 @@ class Grid {
     matrix.forEach((row, rowIdx) => {
       row.forEach((col, colIdx) => {
         if (col !== 0) {
-          ctx.fillStyle = 'purple';
+          ctx.fillStyle = colors[col];
           ctx.fillRect((colIdx) + move.x, (rowIdx) + move.y, (1), (1));
         }
       })

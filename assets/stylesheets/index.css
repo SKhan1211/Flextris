@@ -1,8 +1,12 @@
 body {
-  display: flex;
-  justify-content: center;
+  background: #0e1733;
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 2em;
+  text-align: center;
 }
-
+  
 canvas {
-  border: 3px solid gray;
+  border: solid .2em #fff;
+  height: 90vh;
 }
