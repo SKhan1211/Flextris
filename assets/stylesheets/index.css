@@ -5,8 +5,110 @@ body {
   font-size: 2em;
   text-align: center;
 }
+
+/* Contains all screen elements */
+.screen-container {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+
+/* div for containing score elements */
+.col-1 {
+  position: absolute;
+  left: 0vw;
+  top: 60vh;
+  width: calc(50vw - 241px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Score text */
+.col-1 > p {
+  padding-bottom: 15px;
+}
+
+/* contains inner score block */
+.score-inner-container {
+  width: 16vw;
+  background-color: black;
+  border: solid .1em #fff;
+}
+
+
+/* contains logo and game canvas */
+.col-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 35.6vw;
+  max-width: 482px;
+}
+
+.logo-img {
+  height: 15.6vh;
+}
   
 canvas {
   border: solid .2em #fff;
-  height: 90vh;
+  height: 80vh;
+  position: relative;
+  top: -3vh;
+}
+
+
+/* column for instructions and links */
+
+.col-3 {
+  position: absolute;
+  right: 0vw;
+  top: 21vh;
+  width: calc(50vw - 241px);
+}
+
+.instructions-container {
+  font-size: 1.7vw;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.instructions-container > p:first-of-type  {
+  font-weight: 700;
+}
+
+.instructions-container > p {
+  padding-bottom: 20px;
+}
+
+/* holds all arrow keys */
+.up-down-left-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* border around keys */
+.key-container {
+  height: 3.3vw;
+  width: 3.3vw;
+  border: 3px solid white;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2px;
+  max-width: 44px;
+  max-height: 44px;
+}
+
+/* holds bottom arrow keys */
+.bottom-keys {
+  display: flex;
+}
+
+.fas {
+  font-size: 1.4vw;
 }

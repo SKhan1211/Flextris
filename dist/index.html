@@ -6,10 +6,40 @@
   <title>Flextris</title>
   <link rel="stylesheet" type="text/css" href="../assets/stylesheets/reset.css">
   <link rel="stylesheet" type="text/css" href="../assets/stylesheets/index.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Orbitron:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
 </head>
 <body>
-  <div id="score"></div>
-  <canvas id="game-canvas"></canvas>
+  <div class="screen-container">
+    <div class="col-1">
+      <p>Score</p>
+      <div class="score-inner-container">
+        <div id="score"></div>
+      </div>
+    </div>
+    <div class="col-2">
+      <img class="logo-img" src="../assets/public/flextris.png"/>
+      <canvas id="game-canvas"></canvas>
+    </div>
+    <div class="col-3">
+      <div class="instructions-container">
+        <p>Instructions:</p>
+        <p>Use up, down, left, right to move pieces</p>
+        <div class="up-down-left-right">
+          <div class="top-key">
+            <div class="key-container"><i class="fas fa-chevron-up"></i></div>
+          </div>
+          <div class="bottom-keys">
+            <div class="key-container"><i class="fas fa-chevron-left"></i></div>
+            <div class="key-container"><i class="fas fa-chevron-down"></i></div>
+            <div class="key-container"><i class="fas fa-chevron-right"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <script type="application/javascript" src="./main.js"></script>
 </body>
 </html>
