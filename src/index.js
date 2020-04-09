@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (collision(matrixGrid, user)) {
       matrixGrid.forEach((row) => row.fill(0));
       user.score = 0;
-      updateScore();
+      addScore();
     }
   }
 
