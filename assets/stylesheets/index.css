@@ -76,11 +76,10 @@ canvas {
 }
 
 .instructions-container {
-  font-size: 1.7vw;
+  font-size: 2.7vh;
   font-family: 'Orbitron', sans-serif;
   padding-left: 18px;
   max-width: 300px;
-
   border: 5px solid white;
   border-radius: 8px;
   padding-top: 11px;
