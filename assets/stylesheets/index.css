@@ -21,14 +21,17 @@ body {
   left: 0vw;
   top: 60vh;
   width: calc(50vw - 241px);
-
   display: flex;
   flex-direction: column;
   align-items: center;
+  top: 16vh;
+  height: 50vh;
+  justify-content: space-between;
+  font-family: 'Orbitron', sans-serif;;
 }
 
 /* Score text */
-.col-1 > p {
+.score-outer-container > p {
   padding-bottom: 15px;
 }
 
@@ -68,6 +71,8 @@ canvas {
   right: 0vw;
   top: 21vh;
   width: calc(50vw - 241px);
+  display: flex;
+  justify-content: center;
 }
 
 .instructions-container {
@@ -142,4 +147,25 @@ canvas {
   flex-direction: column;
   align-items: center;
   padding-bottom: 55px;
+}
+
+
+/* links container */ 
+.link-inner-container {
+  padding-bottom: 12px;
+  font-size: 0.8em;
+}
+
+.link-inner-container > a {
+  text-decoration: none;
+  color: #ababab;
+  transition: color 0.25s;
+}
+
+.link-inner-container > a:hover {
+  color: #4c4b4b;
+}
+
+.link-inner-container i {
+  padding-right: 10px;
 }
