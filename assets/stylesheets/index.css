@@ -119,6 +119,7 @@ canvas {
   max-width: 44px;
   max-height: 44px;
   box-shadow:  2px 5px 6px 0px black;
+  background-color: #383636;
 }
 
 /* holds bottom arrow keys */
