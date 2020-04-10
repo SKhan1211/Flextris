@@ -218,6 +218,10 @@ canvas {
   position: absolute;
   top: 48vh;
   transition: opacity 0.25s, height 0.15s;
+  font-family: 'Orbitron', sans-serif;
+  background: -webkit-linear-gradient(#eee, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .pause-img-hidden {
@@ -226,4 +230,8 @@ canvas {
   position: absolute;
   top: 48vh;
   transition: opacity 0.15s, height 0.15s;
+  font-family: 'Orbitron', sans-serif;
+  background: -webkit-linear-gradient(#eee, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
