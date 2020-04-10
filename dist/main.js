@@ -391,6 +391,7 @@ document.addEventListener("DOMContentLoaded", function() {
       addScore();
       linesCleared = 0;
       level = 1;
+      document.getElementById("level").innerText = level;
     }
   }
 
