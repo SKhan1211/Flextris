@@ -363,9 +363,11 @@ document.addEventListener("DOMContentLoaded", function() {
       isPaused = false;
       updateGrid();
       document.addEventListener("keydown", keyPresses);
+      document.getElementsByClassName("pause-img")[0].className = "pause-img-hidden"
     } else {
       isPaused = true;
       document.removeEventListener("keydown", keyPresses);
+      document.getElementsByClassName("pause-img-hidden")[0].className = "pause-img"
     }
   }
 

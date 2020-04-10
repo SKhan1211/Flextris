@@ -210,3 +210,20 @@ canvas {
   padding-right: 10px;
 }
 
+
+/* pause image */
+.pause-img {
+  opacity: 1;
+  height: 3em;
+  position: absolute;
+  top: 48vh;
+  transition: opacity 0.25s, height 0.15s;
+}
+
+.pause-img-hidden {
+  opacity: 0;
+  height: 2.8em;
+  position: absolute;
+  top: 48vh;
+  transition: opacity 0.15s, height 0.15s;
+}
