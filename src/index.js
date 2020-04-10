@@ -15,6 +15,9 @@ document.addEventListener("DOMContentLoaded", function() {
   ];
 
   // Clears layer when it completely fills up
+  let linesCleared = 0;
+  let level = 1;
+  document.getElementById("level").innerText = level;
   function gridClear() {
     let rowCount = 1;
     outer: for (let y = matrixGrid.length - 1; y > 0; --y) {
@@ -30,6 +33,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
       user.score += rowCount * 10;
       rowCount *= 2;
+      linesCleared++;
+      if (linesCleared === 10) {
+        ++level;
+        linesCleared = 0;
+        document.getElementById("level").innerText = level;
+      }
     }
   }
 
@@ -206,11 +215,13 @@ document.addEventListener("DOMContentLoaded", function() {
       matrixGrid.forEach((row) => row.fill(0));
       user.score = 0;
       addScore();
+      linesCleared = 0;
+      level = 1;
     }
   }
 
   function updateGrid(loadingTime = 0) {
-    const newTime = loadingTime - oldTime;
+    const newTime = (loadingTime - oldTime) * level;
     oldTime = loadingTime;
 
     counter += newTime;
@@ -281,5 +292,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
   userReset();
   addScore();
-  updateGrid();  
+  updateGrid(); 
+  
+  window.matrixGrid = matrixGrid;
 })

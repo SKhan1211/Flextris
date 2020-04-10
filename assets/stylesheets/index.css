@@ -42,10 +42,17 @@ body {
   border: solid .1em #fff;
 }
 
+/* grabbing levels div */
+.score-outer-container:nth-of-type(2) {
+  position: relative;
+  top: 30px;
+}
+
 /* copyright holder */
 .copyright-container {
   font-size: 0.4em;
   color: #ababab;
+  text-shadow: 2px 5px 6px black;
 }
 
 
@@ -192,6 +199,7 @@ canvas {
   text-decoration: none;
   color: #ababab;
   transition: color 0.25s;
+  text-shadow: 2px 5px 6px black;
 }
 
 .link-inner-container > a:hover {
@@ -201,3 +209,4 @@ canvas {
 .link-inner-container i {
   padding-right: 10px;
 }
+
