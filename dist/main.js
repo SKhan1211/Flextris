@@ -479,9 +479,10 @@ document.addEventListener("DOMContentLoaded", function() {
       backgroundMusic.volume = 0.2;
       backgroundMusic.play();
       backgroundMusic.onended = () => {
-        songIdx += 2;
-        console.log("Song ended")
-        backgroundMusic.src = `../assets/sound_effects/level1/TetrisA-3.mp3`
+        if (songIdx === 5) {
+          songIdx = 0;
+        }
+        backgroundMusic.src = `../assets/sound_effects/level1/TetrisA-${songIdx += 1}.mp3`
         backgroundMusic.play();
       };
       userReset();
