@@ -179,6 +179,8 @@ document.addEventListener("DOMContentLoaded", function() {
   canvas.width = 240;
   const ctx = canvas.getContext("2d");
   ctx.scale(20, 20);
+  let songIdx = 1;
+  let backgroundMusic = new Audio(`../assets/sound_effects/level1/TetrisA-${songIdx}.mp3`);  
 
   const matrix = [
     [0, 0, 0],
@@ -204,6 +206,8 @@ document.addEventListener("DOMContentLoaded", function() {
       ++y;
 
       user.score += rowCount * 10;
+      let sfx2 = new Audio("../assets/sound_effects/Sfx/SFx2.mp3");
+      sfx2.play();
       rowCount *= 2;
       linesCleared++;
       if (linesCleared === 10) {
@@ -446,8 +450,12 @@ document.addEventListener("DOMContentLoaded", function() {
   function keyPresses(event) {
     if (event.keyCode === 37) {
       userMove(-1);
+      let sfx = new Audio("../assets/sound_effects/Sfx/SFx.mp3");
+      sfx.play();
     } else if (event.keyCode === 39) {
       userMove(1);
+      let sfx = new Audio("../assets/sound_effects/Sfx/SFx.mp3");
+      sfx.play();
     } else if (event.keyCode === 40) {
       userDown();
     } else if (event.keyCode === 81) {
@@ -465,9 +473,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const grid = new _grid__WEBPACK_IMPORTED_MODULE_0__["default"](canvas, matrix, user, matrixGrid);
 
-  userReset();
-  addScore();
-  updateGrid(); 
+
+  document.addEventListener('keydown', () => {
+    if (event.key === 'Enter') {
+      backgroundMusic.volume = 0.2;
+      backgroundMusic.play();
+      backgroundMusic.onended = () => {
+        songIdx += 2;
+        console.log("Song ended")
+        backgroundMusic.src = `../assets/sound_effects/level1/TetrisA-3.mp3`
+        backgroundMusic.play();
+      };
+      userReset();
+      addScore();
+      updateGrid(); 
+    }
+  });
   
   window.matrixGrid = matrixGrid;
 })
