@@ -482,7 +482,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (songIdx === 7) {
           songIdx = 0;
         }
-        backgroundMusic.src = `../assets/sound_effects/level1/TetrisB-${songIdx += 1}.mp3`
+        backgroundMusic.src = `../assets/sound_effects/level1/TetrisA-${songIdx += 1}.mp3`
         backgroundMusic.play();
       };
       userReset();
