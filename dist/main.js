@@ -480,7 +480,7 @@ document.addEventListener("DOMContentLoaded", function() {
       backgroundMusic.play();
       backgroundMusic.onended = () => {
         if (songIdx === 7) {
-          songIdx = 0;
+          songIdx = 2;
         }
         backgroundMusic.src = `../assets/sound_effects/level1/TetrisA-${songIdx += 1}.mp3`
         backgroundMusic.play();
