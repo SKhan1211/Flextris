@@ -207,6 +207,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       user.score += rowCount * 10;
       let sfx2 = new Audio("../assets/sound_effects/Sfx/SFx2.mp3");
+      sfx2.volume = 0.2;
       sfx2.play();
       rowCount *= 2;
       linesCleared++;
@@ -451,10 +452,12 @@ document.addEventListener("DOMContentLoaded", function() {
     if (event.keyCode === 37) {
       userMove(-1);
       let sfx = new Audio("../assets/sound_effects/Sfx/SFx.mp3");
+      sfx.volume = 0.1;
       sfx.play();
     } else if (event.keyCode === 39) {
       userMove(1);
       let sfx = new Audio("../assets/sound_effects/Sfx/SFx.mp3");
+      sfx.volume = 0.1;
       sfx.play();
     } else if (event.keyCode === 40) {
       userDown();
